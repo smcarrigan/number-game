@@ -1,3 +1,8 @@
+# Number Guessing Game
+# Created by: Shaun Carrigan
+# Created date: Sept 2, 2015
+# Last modified date: Sept 4, 2015
+
 import random
 
 # Constants
@@ -135,11 +140,14 @@ def main():
 Rules:
 - You start with $100 and the goal is to try to earn $10K.
 - Number of guesses allowed rolls over every match.
-- Input list sequence for numbers to guess.  The longer the sequence the more money you can earn.
+- Input a range of random numbers.
+- Input a list sequence for numbers to guess.  
+- The longer the sequence and range the more money you can earn.
 ''')
 
 	while(True):
 		menu_input = main_menu()
+		# New Game
 		if menu_input == '1':
 			while(True):
 				print_stats()
@@ -169,9 +177,10 @@ Rules:
 				elif game_input == '4':
 					print("Good bye!!!")
 					exit()
-
+		# Export lives and money to a text file
 		elif menu_input == '2' or menu_input == '3':
 			print("Not yet implemented")
+		# Import lives and money from a text file
 		elif menu_input == '4':
 			print("Good bye!!!")
 			exit()
