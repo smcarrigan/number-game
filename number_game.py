@@ -122,8 +122,8 @@ def print_stats():
 def main_menu():
 	print("-------------------")
 	print("1) Start Game")
-	print("2) Export Game")
-	print("3) Import Game")
+	print("2) Save Game")
+	print("3) Load Saved Game")
 	print("4) Exit")
 	
 	return input("Enter: ")
