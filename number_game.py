@@ -4,6 +4,8 @@
 # Last modified date: Sept 4, 2015
 
 import random
+import json
+import os
 
 # Constants
 MIN_DIFFERENCE = 3
@@ -119,7 +121,7 @@ def print_stats():
 
 def main_menu():
 	print("-------------------")
-	print("1) New Game")
+	print("1) Start Game")
 	print("2) Export Game")
 	print("3) Import Game")
 	print("4) Exit")
@@ -128,13 +130,42 @@ def main_menu():
 
 def game_menu():
 	print("-------------------")
-	print("1) Start Game")
+	print("1) New Match")
 	print("2) Purchase Lives")
 	print("3) Main Menu")
 	print("4) Exit")
 
 	return input("Enter: ")
 
+def game_loop():
+	while(True):
+		print_stats()
+		game_input = game_menu()
+		if game_input == '1':
+			try:
+				input_dict = get_input()
+			except ValueError:
+				print("Invalid input!")
+			else:
+				calculate_inputs(input_dict)
+				random_list = create_list(input_dict)
+				if(not game(random_list, input_dict)):
+					print("GAME OVER")
+					player['total_money'] = STARTING_MONEY
+					break
+		elif game_input == '2':
+			print("Lives cost $10 per life.  How many would you like to purchase?")
+			life_input_value = int(input("Enter: "))
+			if (life_input_value * COST_TO_PURCHASE_LIFE) > player['total_money']:
+				print("You do not have enought money.")
+			else:
+				player['total_lives'] += life_input_value
+				player['total_money'] -= (life_input_value * COST_TO_PURCHASE_LIFE)
+		elif game_input == '3':
+			break
+		elif game_input == '4':
+			print("Good bye!!!")
+			exit()
 def main():
 	print('''Welcome to the number guessing game.
 Rules:
@@ -149,37 +180,22 @@ Rules:
 		menu_input = main_menu()
 		# New Game
 		if menu_input == '1':
-			while(True):
-				print_stats()
-				game_input = game_menu()
-				if game_input == '1':
-					try:
-						input_dict = get_input()
-					except ValueError:
-						print("Invalid input!")
-					else:
-						calculate_inputs(input_dict)
-						random_list = create_list(input_dict)
-						if(not game(random_list, input_dict)):
-							print("GAME OVER")
-							player['total_money'] = STARTING_MONEY
-							break
-				elif game_input == '2':
-					print("Lives cost $10 per life.  How many would you like to purchase?")
-					life_input_value = int(input("Enter: "))
-					if (life_input_value * COST_TO_PURCHASE_LIFE) > player['total_money']:
-						print("You do not have enought money.")
-					else:
-						player['total_lives'] += life_input_value
-						player['total_money'] -= (life_input_value * COST_TO_PURCHASE_LIFE)
-				elif game_input == '3':
-					break
-				elif game_input == '4':
-					print("Good bye!!!")
-					exit()
+			game_loop()
 		# Export lives and money to a text file
-		elif menu_input == '2' or menu_input == '3':
-			print("Not yet implemented")
+		elif menu_input == '2':
+			print("Saving game...")
+			if not os.path.exists('save'):
+				os.makedirs('save')
+			with open('save/saved_state.json', 'w') as fp:
+				json.dump(player, fp)
+		elif menu_input == '3':
+			print("Loading saved game...")
+			with open('save/saved_state.json') as json_data:
+			    json_file = json.load(json_data)
+			    json_data.close()
+			    player['total_lives'] = int(json_file['total_lives'])
+			    player['total_money'] = float(json_file['total_money'])
+			    game_loop()
 		# Import lives and money from a text file
 		elif menu_input == '4':
 			print("Good bye!!!")
