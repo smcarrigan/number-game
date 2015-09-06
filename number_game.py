@@ -1,7 +1,7 @@
 # Number Guessing Game
 # Created by: Shaun Carrigan
 # Created date: Sept 2, 2015
-# Last modified date: Sept 4, 2015
+# Last modified date: Sept 6, 2015
 
 import random
 import json
@@ -167,14 +167,14 @@ def game_loop():
 			print("Good bye!!!")
 			exit()
 def main():
-	print('''Welcome to the number guessing game.
-Rules:
-- You start with $100 and the goal is to try to earn $10K.
-- Number of guesses allowed rolls over every match.
-- Input a range of random numbers.
-- Input a list sequence for numbers to guess.  
-- The longer the sequence and range the more money you can earn.
-''')
+	print("Welcome to the number guessing game.")
+	print("Rules:")
+	print("- You start with $100 and the goal is to try to earn $" + str(WINNING_TOTAL) + ".")
+	print("- If you run out of money, you lose the game.")
+	print("- Every match, you input a range of random numbers and a list of numbers to guess.")
+	print("- The longer the list and range the more money you can either win or lose.")
+	print("- Every completed match, you earn " + str(WINNINGS_NUM_OF_LIVES) + " + extra lives not spent.")
+	print("Good luck and have fun!")
 
 	while(True):
 		menu_input = main_menu()
