@@ -11,8 +11,8 @@ import os
 MIN_DIFFERENCE = 3
 MIN_LIST = 3
 STARTING_NUM_OF_LIVES = 7
-WINNINGS_NUM_OF_LIVES = 4
-WINNING_TOTAL = 10000
+WINNINGS_NUM_OF_LIVES = 7
+WINNING_TOTAL = 1000000
 STARTING_MONEY = 100
 COST_TO_PURCHASE_LIFE = 10
 
@@ -114,9 +114,9 @@ def game(random_list, input_dict):
 
 def print_stats():
 	print("+++++++++++++++++++")
-	print("Total amount of money: $%.2f" % player['total_money'])
+	print("Total amount of money: $%d" % player['total_money'])
 	print("Total number of lives: %d" % player['total_lives'])
-	print("You currently have $%.2f of $%.2f." % (player['total_money'],WINNING_TOTAL))
+	print("You currently have $%d of $%d." % (player['total_money'],WINNING_TOTAL))
 	print("Progress: %.1f%%" % ((player['total_money'] / WINNING_TOTAL)*100))
 
 def main_menu():
@@ -194,7 +194,7 @@ def main():
 			    json_file = json.load(json_data)
 			    json_data.close()
 			    player['total_lives'] = int(json_file['total_lives'])
-			    player['total_money'] = float(json_file['total_money'])
+			    player['total_money'] = int(json_file['total_money'])
 			    game_loop()
 		# Import lives and money from a text file
 		elif menu_input == '4':
