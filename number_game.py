@@ -110,9 +110,8 @@ def print_stats():
 def main_menu():
 	print("-------------------")
 	print("1) Start Game")
-	print("2) Save Game")
-	print("3) Load Saved Game")
-	print("4) Exit")
+	print("2) Continue Game")
+	print("3) Exit")
 	
 	return input("Enter: ")
 
@@ -120,7 +119,7 @@ def game_menu():
 	print("-------------------")
 	print("1) New Match")
 	print("2) Purchase Lives")
-	print("3) Main Menu")
+	print("3) Save Game")
 	print("4) Exit")
 
 	return input("Enter: ")
@@ -150,7 +149,11 @@ def game_loop():
 				player['total_lives'] += life_input_value
 				player['total_money'] -= (life_input_value * COST_TO_PURCHASE_LIFE)
 		elif game_input == '3':
-			break
+			print("Saving game...")
+			if not os.path.exists('save'):
+				os.makedirs('save')
+			with open('save/saved_state.json', 'w') as fp:
+				json.dump(player, fp)
 		elif game_input == '4':
 			print("Good bye!!!")
 			exit()
@@ -169,14 +172,7 @@ def main():
 		# New Game
 		if menu_input == '1':
 			game_loop()
-		# Export lives and money to a text file
 		elif menu_input == '2':
-			print("Saving game...")
-			if not os.path.exists('save'):
-				os.makedirs('save')
-			with open('save/saved_state.json', 'w') as fp:
-				json.dump(player, fp)
-		elif menu_input == '3':
 			print("Loading saved game...")
 			with open('save/saved_state.json') as json_data:
 			    json_file = json.load(json_data)
@@ -184,8 +180,7 @@ def main():
 			    player['total_lives'] = int(json_file['total_lives'])
 			    player['total_money'] = int(json_file['total_money'])
 			    game_loop()
-		# Import lives and money from a text file
-		elif menu_input == '4':
+		elif menu_input == '3':
 			print("Good bye!!!")
 			exit()
 		else:
