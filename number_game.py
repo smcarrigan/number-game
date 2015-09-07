@@ -15,6 +15,7 @@ WINNINGS_NUM_OF_LIVES = 7
 WINNING_TOTAL = 1000000
 STARTING_MONEY = 100
 COST_TO_PURCHASE_LIFE = 10
+LIST_SIZE = 3
 
 player = { 
 	'total_lives' : STARTING_NUM_OF_LIVES,
@@ -30,27 +31,14 @@ def check_value(guess, correct_value):
 def get_input():
 	min_random_value = 0
 	max_random_value = 0
-	num_of_list_values = 0
 
 	while((max_random_value - min_random_value) < MIN_DIFFERENCE):
 		print("Range needs to be greater than " + str(MIN_DIFFERENCE) + ".")
 		min_random_value = int(input("Minimum random value: "))
 		max_random_value = int(input("Maximum random value: "))
-	
-	while(num_of_list_values < MIN_LIST):
-		print("Number of list values needs to be greater than or equal to " + str(MIN_LIST) + ".")
-		num_of_list_values = int(input("Number of values in list: "))
-
-	while(num_of_list_values > player['total_lives']):
-		print("Number of list values needs to be less than total lives.")
-		num_of_list_values = int(input("Number of values in list: "))
-	#while(num_of_lives < num_of_list_values):
-	#	print("Number of lives needs to be greater or equal to number of list values.")
-	#	num_of_tries = int(input("Number of tries: "))
 
 	return {'min_random_value': min_random_value,
 		'max_random_value': max_random_value,
-		'num_of_list_values': num_of_list_values
 		}
 
 def calculate_inputs(input_dict):
@@ -58,7 +46,7 @@ def calculate_inputs(input_dict):
 
 def create_list(input_dict):
 	return [random.randint(input_dict['min_random_value'],input_dict['max_random_value'])
-		       for x in range(1,input_dict['num_of_list_values']+1)]
+		       for x in range(1,LIST_SIZE+1)]
 
 def game(random_list, input_dict):
 	index = 0
@@ -171,8 +159,8 @@ def main():
 	print("Rules:")
 	print("- You start with $100 and the goal is to try to earn $" + str(WINNING_TOTAL) + ".")
 	print("- If you run out of money, you lose the game.")
-	print("- Every match, you input a range of random numbers and a list of numbers to guess.")
-	print("- The longer the list and range the more money you can either win or lose.")
+	print("- Every match, you input a range of random numbers to guess.")
+	print("- The longer the range the more money you can either win or lose.")
 	print("- Every completed match, you earn " + str(WINNINGS_NUM_OF_LIVES) + " + extra lives not spent.")
 	print("Good luck and have fun!")
 
